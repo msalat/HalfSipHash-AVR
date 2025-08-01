@@ -38,8 +38,6 @@
     (((uint32_t)((p)[0])) | ((uint32_t)((p)[1]) << 8) |                        \
      ((uint32_t)((p)[2]) << 16) | ((uint32_t)((p)[3]) << 24))
 
-#define SIPROUND                                                               \
-    do {                                                                       \
 // Optimal rotation of 32 bit integers on AVR.
 // thanks to https://github.com/openluopworld/avr-msp-rotate-shift/blob/master/avr_rotate_shift.h
 #define SIPROUND                                                               \
