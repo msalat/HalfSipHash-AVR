@@ -40,18 +40,86 @@
 
 #define SIPROUND                                                               \
     do {                                                                       \
+// Optimal rotation of 32 bit integers on AVR.
+// thanks to https://github.com/openluopworld/avr-msp-rotate-shift/blob/master/avr_rotate_shift.h
+#define SIPROUND                                                               \
+    do {                                                                       \
         v0 += v1;                                                              \
-        v1 = ROTL(v1, 5);                                                      \
+        asm("mov r0, %D0\n" /*v1 = ROTL(v1, 5);*/                              \
+            "mov %D0, %C0\n"                                                   \
+            "mov %C0, %B0\n"                                                   \
+            "mov %B0, %A0\n"                                                   \
+            "mov %A0, r0\n"                                                    \
+            "lsr %D0\n"                                                        \
+            "ror %C0\n"                                                        \
+            "ror %B0\n"                                                        \
+            "bst %A0, 0\n"                                                     \
+            "ror %A0\n"                                                        \
+            "bld %D0, 7\n"                                                     \
+            "lsr %D0\n"                                                        \
+            "ror %C0\n"                                                        \
+            "ror %B0\n"                                                        \
+            "bst %A0, 0\n"                                                     \
+            "ror %A0\n"                                                        \
+            "bld %D0, 7\n"                                                     \
+            "lsr %D0\n"                                                        \
+            "ror %C0\n"                                                        \
+            "ror %B0\n"                                                        \
+            "bst %A0, 0\n"                                                     \
+            "ror %A0\n"                                                        \
+            "bld %D0, 7\n"                                                     \
+            : "=d" (v1)                                                        \
+            : "0" (v1)                                                         \
+            : "r0");                                                           \
         v1 ^= v0;                                                              \
         v0 = ROTL(v0, 16);                                                     \
         v2 += v3;                                                              \
         v3 = ROTL(v3, 8);                                                      \
         v3 ^= v2;                                                              \
         v0 += v3;                                                              \
-        v3 = ROTL(v3, 7);                                                      \
+        asm("mov r0, %D0\n" /*v3 = ROTL(v3, 7);*/                              \
+            "mov %D0, %C0\n"                                                   \
+            "mov %C0, %B0\n"                                                   \
+            "mov %B0, %A0\n"                                                   \
+            "mov %A0, r0\n"                                                    \
+            "lsr %D0\n"                                                        \
+            "ror %C0\n"                                                        \
+            "ror %B0\n"                                                        \
+            "bst %A0, 0\n"                                                     \
+            "ror %A0\n"                                                        \
+            "bld %D0, 7\n"                                                     \
+            : "=d" (v3)                                                        \
+            : "0" (v3)                                                         \
+            : "r0");                                                           \
         v3 ^= v0;                                                              \
         v2 += v1;                                                              \
-        v1 = ROTL(v1, 13);                                                     \
+        asm("mov r0, %D0\n" /*v1 = ROTL(v1, 13);*/                             \
+            "mov %D0, %B0\n"                                                   \
+            "mov %B0, r0\n"                                                    \
+            "mov r0, %C0\n"                                                    \
+            "mov %C0, %A0\n"                                                   \
+            "mov %A0, r0\n"                                                    \
+            "lsr %D0\n"                                                        \
+            "ror %C0\n"                                                        \
+            "ror %B0\n"                                                        \
+            "bst %A0, 0\n"                                                     \
+            "ror %A0\n"                                                        \
+            "bld %D0, 7\n"                                                     \
+            "lsr %D0\n"                                                        \
+            "ror %C0\n"                                                        \
+            "ror %B0\n"                                                        \
+            "bst %A0, 0\n"                                                     \
+            "ror %A0\n"                                                        \
+            "bld %D0, 7\n"                                                     \
+            "lsr %D0\n"                                                        \
+            "ror %C0\n"                                                        \
+            "ror %B0\n"                                                        \
+            "bst %A0, 0\n"                                                     \
+            "ror %A0\n"                                                        \
+            "bld %D0, 7\n"                                                     \
+            : "=d" (v1)                                                        \
+            : "0" (v1)                                                         \
+            : "r0");                                                           \
         v1 ^= v2;                                                              \
         v2 = ROTL(v2, 16);                                                     \
     } while (0)
