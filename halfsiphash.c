@@ -91,13 +91,8 @@
             : "r0");                                                           \
         v3 ^= v0;                                                              \
         v2 += v1;                                                              \
-        asm("mov r0, %D0\n" /*v1 = ROTL(v1, 13);*/                             \
-            "mov %D0, %B0\n"                                                   \
-            "mov %B0, r0\n"                                                    \
-            "mov r0, %C0\n"                                                    \
-            "mov %C0, %A0\n"                                                   \
-            "mov %A0, r0\n"                                                    \
-            "lsr %D0\n"                                                        \
+        v1=ROTL(v1, 16); /*v1 = ROTL(v1, 13)*/                                 \
+        asm("lsr %D0\n"                                                        \
             "ror %C0\n"                                                        \
             "ror %B0\n"                                                        \
             "bst %A0, 0\n"                                                     \
