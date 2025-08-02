@@ -13,7 +13,7 @@ SipHash was designed in 2012 by [Jean-Philippe Aumasson](https://aumasson.jp)
 and [Daniel J. Bernstein](https://cr.yp.to) as a defense against [hash-flooding
 DoS attacks](https://aumasson.jp/siphash/siphashdos_29c3_slides.pdf).
 
-**This fork optimizes the rotate on AVR microcontrollers for *halfsiphash* only. Approx 105 cycles/byte (instead of 600) with 32 byte messages.**
+* **This fork optimizes the rotate on AVR microcontrollers for *halfsiphash* only. Approx 105 cycles/byte (instead of 600) with 32 byte messages.**
 
 SipHash is:
 
